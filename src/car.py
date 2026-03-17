@@ -1,6 +1,6 @@
 class RefuelError(Exception):
     """Исключение при попытке залить слишком много топлива."""
-    
+
     def __init__(self, message: str = "Вы пытаетесь залить слишком много бензина!"):
         self.message = message
         super().__init__(self.message)
@@ -8,7 +8,7 @@ class RefuelError(Exception):
 
 class InsufficientFuelError(Exception):
     """Исключение при недостаточном количестве топлива для поездки."""
-    
+
     def __init__(self, message: str = "Не доедем жеж..."):
         self.message = message
         super().__init__(self.message)
