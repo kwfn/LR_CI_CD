@@ -1,3 +1,17 @@
+class RefuelError(Exception):
+    """Исключение при попытке залить слишком много топлива."""
+    def __init__(self, message: str = "Вы пытаетесь залить слишком много бензина!"):
+        self.message = message
+        super().__init__(self.message)
+
+
+class InsufficientFuelError(Exception):
+    """Исключение при недостаточном количестве топлива для поездки."""
+    def __init__(self, message: str = "Не доедем жеж..."):
+        self.message = message
+        super().__init__(self.message)
+
+
 class Car:
     def __init__(self, model: str, fuel_capacity: float) -> None:
         self._model = model
@@ -9,12 +23,15 @@ class Car:
 
     def refuel_car(self, fuel_quantity: float):
         if self._max_fuel_capacity - self._fuel_in_tank < fuel_quantity:
-            raise Exception("Вы пытаетесь залить слишком много бензина!")
+            error_message = "Вы пытаетесь залить слишком много бензина!"
+            raise RefuelError(error_message)
         self._fuel_in_tank += fuel_quantity
 
     def drive(self, distance_km: float):
-        fuel_burned: int = 8 * (distance_km / 100)
+        # Считаем, что расход 8 литров на 100 км
+        fuel_burned = 8 * (distance_km / 100)
         if self._fuel_in_tank < fuel_burned:
-            raise Exception("Не доедем жеж...")
+            error_message = "Не доедем жеж..."
+            raise InsufficientFuelError(error_message)
         self._fuel_in_tank -= fuel_burned
         return self.get_current_fuel_level()
